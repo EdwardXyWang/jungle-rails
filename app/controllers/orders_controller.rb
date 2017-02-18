@@ -4,6 +4,8 @@ class OrdersController < ApplicationController
 
   def show
     @order = Order.find(params[:id])
+      # Tell the UserMailer to send a checkout email after placing order
+      UserMailer.checkout_email(@order, @current_user).deliver_now
   end
 
   def create
