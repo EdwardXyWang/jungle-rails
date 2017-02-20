@@ -26,6 +26,39 @@
       </div>
     </div>
 
+    <div class="<%= current_user.present? == true ? "row" : "hidden" %>">
+      <%= form_for ([@product, @product.reviews.build]) do |f| %>
+        <p> <%= f.text_area :description %> </p>
+        <p> <%= f.select :rating, [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5]] %> </p>
+        <p> <%= f.submit %> </p>
+      <% end %>
+    </div>
+
+    <div class="row">
+      <% @product.reviews.reverse.each do |review| %>
+        <% if review.description.present? %>
+          <dl class="dl-horizontal col-sm-8">
+            <dt>Description</dt>
+            <dd><%= review.description %></dd>
+            <dt>Rating</dt>
+            <dd><%= review.rating %></dd>
+            <dt>Created at</dt>
+            <dd><%= review.created_at %></dd>
+            <dt>
+              <% if current_user.present? && review.user_id == current_user.id %>
+                <%= form_for [review.product, review], method: :delete  do |f| %>
+                  <%= f.button %>
+                <% end %>
+                <p>
+                  <%= link_to 'Delete Review', [review.product, review], method: :delete, data: { confirm: 'Are you sure?' } %>
+                </p>
+              <% end %>
+            </dt>
+          </dl>
+        <% end %>
+      <% end %>
+    </div>
+
   </article>
 
 </section>
