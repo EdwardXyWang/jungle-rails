@@ -12,7 +12,12 @@ class OrdersController < ApplicationController
     charge = perform_stripe_charge
     order  = create_order(charge)
 
-    if order.valid?
+    if order.valid? && check_order
+      cart.each do |k, v|
+        product = Product.find(k.to_i)
+        product.quantity -= v["quantity"]
+        product.save
+      end
       empty_cart!
       redirect_to order, notice: 'Your Order has been placed.'
     else
@@ -28,6 +33,14 @@ class OrdersController < ApplicationController
   def empty_cart!
     # empty hash means no products in cart :)
     update_cart({})
+  end
+
+  def check_order
+    cart.each do |k, v|
+      product = Product.find(k.to_i)
+      if product.quantity < v["quantity"] then return false end
+    end
+    true
   end
 
   def perform_stripe_charge
