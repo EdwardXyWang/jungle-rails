@@ -7,7 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 puts "Seeding Data ..."
-dsf
+
 # Helper functions
 def open_asset(file_name)
   File.open(Rails.root.join('db', 'seed_assets', file_name))
