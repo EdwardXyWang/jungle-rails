@@ -21,9 +21,9 @@ RSpec.feature "Visitor navigates to product details", type: :feature, js: true d
     visit root_path
     first('article.product').find_link('Details').click
 
+    expect(page).to have_css 'article.product-detail'
     # DEBUG / VERIFY
     save_screenshot
 
-    expect(page).to have_css 'article.product-detail'
   end
 end
