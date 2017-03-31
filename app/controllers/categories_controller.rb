@@ -1,4 +1,5 @@
 class CategoriesController < ApplicationController
+  include CatalogRatingHelper
 
   def show
     @category = Category.find(params[:id])

@@ -5,6 +5,14 @@
       <h4><%= product.name %></h4>
     <% end %>
   </header>
+  <h4>
+    <% if product.reviews.first == nil %>
+      <%= "This product has not been rated yet." %>
+    <% else %>
+      The overall rating for this product is
+      <%= number_with_precision(CalculateProductRate(product.id), precision: 2) %>
+    <% end %>
+  </h4>
   <p class="description">
     <%= product.description %>
   </p>
